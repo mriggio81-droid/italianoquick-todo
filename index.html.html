@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ItalianoQuick — Checklist Sito</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #E8344E;
+    --red-dark: #C02840;
+    --red-light: #fdeef1;
+    --yellow: #F5A623;
+    --yellow-light: #fff8ed;
+    --green: #2D9E6B;
+    --green-light: #edf7f3;
+    --dark: #1a1a2e;
+    --mid: #4a4a6a;
+    --muted: #8a8aa0;
+    --light: #f7f7fc;
+    --white: #ffffff;
+    --border: #e8e8f0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--light);
+    color: var(--dark);
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+  header {
+    background: var(--dark);
+    padding: 44px 24px 34px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 220px; height: 220px;
+    background: var(--red);
+    border-radius: 50%;
+    opacity: 0.15;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 40px;
+    width: 140px; height: 140px;
+    background: var(--yellow);
+    border-radius: 50%;
+    opacity: 0.12;
+  }
+  .header-inner { max-width: 880px; margin: 0 auto; position: relative; z-index: 1; }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    color: var(--white);
+    font-size: 2.1rem;
+    margin-bottom: 6px;
+  }
+  header p { color: #c7c7de; font-size: 0.95rem; }
+  .updated { color: var(--yellow); font-size: 0.8rem; margin-top: 10px; }
+
+  .progress-wrap { max-width: 880px; margin: -22px auto 0; padding: 0 24px; position: relative; z-index: 2; }
+  .progress-card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 18px 22px;
+    box-shadow: 0 8px 24px rgba(26,26,46,0.12);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .progress-bar-track {
+    flex: 1;
+    height: 10px;
+    background: var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), #58c99a);
+    border-radius: 6px;
+    transition: width 0.4s ease;
+  }
+  .progress-label { font-size: 0.85rem; color: var(--mid); white-space: nowrap; font-weight: 500; }
+
+  main { max-width: 880px; margin: 34px auto 0; padding: 0 24px; }
+
+  .section { margin-bottom: 32px; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .section-head h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+  }
+  .section-count { font-size: 0.8rem; color: var(--muted); }
+  .section.alta .section-head h2 { color: var(--red-dark); }
+  .section.media .section-head h2 { color: #b57a10; }
+  .section.bassa .section-head h2 { color: #1f7a4f; }
+
+  .item {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    transition: background 0.2s ease, opacity 0.2s ease;
+  }
+  .item.done { background: var(--green-light); opacity: 0.75; }
+  .item input[type="checkbox"] {
+    margin-top: 3px;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--green);
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .item-text { flex: 1; }
+  .item-title { font-size: 0.95rem; font-weight: 500; line-height: 1.4; }
+  .item.done .item-title { text-decoration: line-through; color: var(--muted); }
+  .item-note { font-size: 0.82rem; color: var(--mid); margin-top: 3px; line-height: 1.4; }
+  .item.done .item-note { color: var(--muted); }
+
+  footer { max-width: 880px; margin: 30px auto 0; padding: 0 24px; text-align: center; }
+  footer p { font-size: 0.8rem; color: var(--muted); }
+  .reset-btn {
+    margin-top: 14px;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.78rem;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .reset-btn:hover { border-color: var(--red); color: var(--red); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>ItalianoQuick — Checklist Sito</h1>
+    <p>Voci ancora aperte e chiuse dall'audit del sito, aggiornate al 21 ottobre 2026</p>
+    <div class="updated">Le spunte si salvano solo su questo browser</div>
+  </div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-card">
+    <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">0 / 0 completate</div>
+  </div>
+</div>
+
+<main>
+
+  <div class="section alta" id="section-alta">
+    <div class="section-head"><h2>🔴 Alta priorità</h2><span class="section-count"></span></div>
+    <div class="items"></div>
+  </div>
+
+  <div class="section media" id="section-media">
+    <div class="section-head"><h2>🟡 Media priorità</h2><span class="section-count"></span></div>
+    <div class="items"></div>
+  </div>
+
+  <div class="section bassa" id="section-bassa">
+    <div class="section-head"><h2>🟢 Bassa priorità</h2><span class="section-count"></span></div>
+    <div class="items"></div>
+  </div>
+
+</main>
+
+<footer>
+  <p>ItalianoQuick — checklist interna</p>
+  <button class="reset-btn" onclick="if(confirm('Cancellare tutte le spunte?')){localStorage.removeItem('iq-sito-todo-v2');location.reload();}">Azzera spunte</button>
+</footer>
+
+<script>
+const DATA = {
+  alta: [
+    { id: 'a1', title: 'Meta description homepage (Rank Math)', note: 'Impostate anche parole chiave, titoli e descrizioni di Home, Free Assessment, Who we are, Our Teachers, Courses, One-to-One, GCSE, Little Italians', done: true },
+    { id: 'a2', title: 'Google Business Profile creato', note: 'Categoria, descrizione e foto fatte', done: true },
+    { id: 'a3', title: 'Video di verifica Google Business Profile', note: 'Da rifare in un\'unica ripresa: cartello "The Retreat", civico 14, ingresso, stanza con computer e materiali, bolletta con nome e indirizzo. Prima controllare che il segnaposto sulla mappa cada sul civico 14', done: false },
+    { id: 'a3b', title: 'Preparare la lezione gratuita di venerdì 30 ottobre, ore 19:00', note: 'Mi piace e pronomi indiretti. Da programmare anche newsletter (lun 26, mer 28, ven 30) e post social', done: false },
+    { id: 'a4', title: 'Categoria Facebook cambiata in "Scuola di lingue"', note: '', done: true },
+    { id: 'a5', title: 'Rimuovere "250 people are learning today" dalla homepage', note: '', done: true },
+    { id: 'a6', title: 'Rimuovere sezione "Featured In" (loghi falsi)', note: '', done: true },
+    { id: 'a7', title: 'Corsi in evidenza in homepage aggiornati', note: 'Ora: GCSE Italian Tutoring, One-to-One e Little Italians', done: true },
+    { id: 'a8', title: 'Rimuovere Cinema Lab "Finished" dalla lista corsi', note: '', done: true },
+    { id: 'a9', title: 'Pulsante Free Assessment più grande e visibile in homepage', note: 'Ingrandito e reso verde (20 ottobre)', done: true }
+  ],
+  media: [
+    { id: 'm1', title: 'FAQ riscritte', note: '', done: true },
+    { id: 'm2', title: 'Pagina Contact sistemata', note: 'Indirizzo, form, pulsante Calendly, testi', done: true },
+    { id: 'm3', title: 'Riscrivere pagina About Us / "Who We Are"', note: 'Riscritta e pubblicata il 20 ottobre (foto in classe, ritratto, contatori, recensione)', done: true },
+    { id: 'm4', title: 'Recuperare articoli blog', note: '', done: true },
+    { id: 'm5', title: 'Email ex studenti — Free Assessment + 20% sconto entro 30 giorni', note: '', done: true },
+    { id: 'm6', title: 'Newsletter studenti attuali — referral 20%', note: 'Programma reciproco al 20%: newsletter già inviata', done: true },
+    { id: 'm7', title: 'Cambiare foto principale del sito', note: 'Da selfie in treno a foto professionale', done: true },
+    { id: 'm8', title: 'Ottimizzare slug delle pagine corso', note: 'Fatto per Beginner, Pre-Intermediate e Intermediate (poi resi Private)', done: true },
+    { id: 'm9', title: 'Correggere corso "1to1" classificato come "Advanced"', note: '', done: true },
+    { id: 'm10', title: 'Nomi istruttori su pagina Free Assessment', note: 'Pagina riscritta: le chiamate le fa solo Marco', done: true },
+    { id: 'm11', title: 'Titoli dei corsi privati senza date', note: 'Tolti "June 2026" e "July 2026"', done: true },
+    { id: 'm12', title: 'Sitemap di Rank Math ripulita', note: 'Tolti i contenuti inutili per Google', done: true },
+    { id: 'm13', title: 'Disattivare plugin da amministratore non necessari', note: 'Download Plugin as Zip, One Click Demo Import, WordPress Importer. Il resto non si tocca', done: true },
+    { id: 'm14', title: 'Un solo titolo principale (H1) in homepage', note: '', done: false },
+    { id: 'm15', title: 'Pubblicare gli articoli del blog (piano di 12, martedì e giovedì alle 9:00)', note: 'Online: "How to Introduce Yourself in Italian". Programmati: Mi piace or Mi piacciono (22 ott), CILS B1 Cittadinanza (27 ott), GCSE Italian Speaking Exam (29 ott), errori comuni all\'orale GCSE (3 nov). Da preparare i successivi', done: false },
+    { id: 'm16', title: 'Immagini in evidenza dei vecchi articoli', note: 'Aggiornate per "Why One-to-One Italian Lessons…" e "Italian Isn\'t Just a Language…"', done: true },
+    { id: 'm17', title: 'Ingrandire le foto degli insegnanti nei profili', note: '', done: false },
+    { id: 'm18', title: 'Rifare il backup con Duplicator', note: 'Ultimo: 20 ottobre. Da rifare a fine giornata', done: false },
+    { id: 'm19', title: 'Ricontrollare la velocità da mobile', note: 'Ultimo test 35 (CLS 0,515), in precedenza 58. Nessun intervento su CSS, JavaScript e slider', done: false },
+    { id: 'm20', title: 'Chiedere una recensione agli studenti', note: 'Dopo la verifica di Google Business Profile', done: false }
+  ],
+  bassa: [
+    { id: 'b1', title: 'Landing page dedicata', note: '', done: false },
+    { id: 'b2', title: 'Biglietti da visita', note: 'Arrivati il 15 settembre: decidere dove e a chi distribuirli', done: false },
+    { id: 'b3', title: 'Profilo iTalki e/o Preply', note: '', done: false },
+    { id: 'b4', title: 'Pacchetto Vacanze Italia', note: 'Tentato, 0 iscrizioni, rimandato a marzo-aprile 2027', done: false },
+    { id: 'b5', title: 'Lezione gratuita settimanale (Facebook/Zoom, donazione volontaria)', note: '', done: false },
+    { id: 'b6', title: 'Serie "Calcio in italiano" con il fratello', note: '', done: false },
+    { id: 'b7', title: 'Campagna Facebook Ads per il Free Assessment', note: '', done: false },
+    { id: 'b8', title: 'Google Ads di nicchia', note: 'CILS, Latino, corsi bambini', done: false },
+    { id: 'b8b', title: 'Pubblicità locale, fino a £100', note: 'Solo dopo la verifica di Google Business e se ci sono ore libere', done: false },
+    { id: 'b9', title: 'Link building / guest posting su blog italofili UK', note: '', done: false },
+    { id: 'b10', title: 'Ottimizzare titoli/descrizioni video YouTube esistenti', note: '', done: false },
+    { id: 'b11', title: 'Materiali didattici scaricabili a pagamento', note: '', done: false },
+    { id: 'b12', title: 'Workshop one-shot tematici', note: '', done: false },
+    { id: 'b13', title: 'Quaderno ItalianoQuick', note: 'Versione regalo (PDF) + versione commerciale "Italian Language Learning Journal" su Amazon KDP', done: false },
+    { id: 'b14', title: 'Sezione "Risorse gratuite" sul sito', note: 'Opt-in MailerLite per PDF scaricabili, collegata a TikTok/YouTube', done: false },
+    { id: 'b15', title: 'Nuove classi venerdì sera e ora di pranzo', note: '', done: false },
+    { id: 'b16', title: 'Coinvolgere collaboratori per classi nelle sere impegnate', note: '', done: false },
+    { id: 'b17', title: 'Aggiornare indirizzo nel footer', note: 'Da indirizzo di casa a "Grays, Essex"', done: true },
+    { id: 'b18', title: 'Foto sotto il tasto play in homepage', note: 'Foto in classe ritoccata; il video YouTube resta', done: true },
+    { id: 'b19', title: 'Post social degli articoli e clip della lezione del 16 ottobre', note: 'In pausa. Bozze pronte per "How to Introduce Yourself in Italian"', done: false },
+    { id: 'b20', title: 'Sostituire il video della homepage (vecchio di due anni)', note: '', done: false },
+    { id: 'b21', title: 'Foto sorridente per la pagina "Who we are"', note: '', done: false },
+    { id: 'b22', title: 'Sezione "Our Difference" ancora generica', note: 'Lasciata com\'è per ora', done: false },
+    { id: 'b23', title: 'Titoli e anni dei premi di scrittura da inserire nella biografia', note: '', done: false },
+    { id: 'b24', title: 'Pagina dedicata al B1 per la cittadinanza', note: 'L\'articolo del blog è pronto; manca la pagina del corso', done: false },
+    { id: 'b25', title: 'Controllare i vecchi link "/freeassessment"', note: 'Quello corretto è italianoquick.com/free-assessment/', done: false },
+    { id: 'b26', title: 'Intestazioni di sicurezza del server (HSTS e simili)', note: '', done: false },
+    { id: 'b27', title: 'Lasciati perdere di proposito', note: 'Velocità (CSS/JavaScript e slider), obiettivo Google Analytics per il Free Assessment, modulo MailerLite per la lezione gratuita, altri plugin', done: false }
+  ]
+};
+
+const STORAGE_KEY = 'iq-sito-todo-v2';
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) { return {}; }
+}
+
+function saveState(state) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+
+function render() {
+  const state = loadState();
+  let totalItems = 0, totalDone = 0;
+
+  ['alta', 'media', 'bassa'].forEach(key => {
+    const container = document.querySelector(`#section-${key} .items`);
+    const countEl = document.querySelector(`#section-${key} .section-count`);
+    container.innerHTML = '';
+    let sectionDone = 0;
+
+    DATA[key].forEach(item => {
+      const isDone = state.hasOwnProperty(item.id) ? state[item.id] : item.done;
+      totalItems++;
+      if (isDone) { totalDone++; sectionDone++; }
+
+      const div = document.createElement('div');
+      div.className = 'item' + (isDone ? ' done' : '');
+      div.innerHTML = `
+        <input type="checkbox" ${isDone ? 'checked' : ''} data-id="${item.id}">
+        <div class="item-text">
+          <div class="item-title">${item.title}</div>
+          ${item.note ? `<div class="item-note">${item.note}</div>` : ''}
+        </div>
+      `;
+      container.appendChild(div);
+    });
+
+    countEl.textContent = `${sectionDone} / ${DATA[key].length}`;
+  });
+
+  document.getElementById('progressLabel').textContent = `${totalDone} / ${totalItems} completate`;
+  document.getElementById('progressFill').style.width = totalItems ? `${(totalDone/totalItems)*100}%` : '0%';
+
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', (e) => {
+      const state = loadState();
+      state[e.target.dataset.id] = e.target.checked;
+      saveState(state);
+      render();
+    });
+  });
+}
+
+render();
+</script>
+
+</body>
+</html>
